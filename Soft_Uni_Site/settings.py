@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Soft_Uni_Site.apartments',
+    'Soft_Uni_Site.users',
+    'Soft_Uni_Site.rentals',
 ]
 
 MIDDLEWARE = [
