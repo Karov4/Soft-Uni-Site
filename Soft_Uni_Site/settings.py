@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'Soft_Uni_Site.apartments',
     'Soft_Uni_Site.users',
     'Soft_Uni_Site.rentals',
-    'Soft_Uni_Site.web',
     'Soft_Uni_Site.reviews',
     'Soft_Uni_Site.bookings',
 ]
