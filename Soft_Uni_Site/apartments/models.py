@@ -17,6 +17,7 @@ class Apartment(models.Model):
     bedrooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
     description = models.TextField()
+    image_url = models.URLField(null=False, blank=False, verbose_name="Image URL:")
     rent_price = models.DecimalField(max_digits=10, decimal_places=2)
     is_available = models.BooleanField(default=True)
 
