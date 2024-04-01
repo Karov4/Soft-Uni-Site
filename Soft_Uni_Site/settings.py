@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,11 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Soft_Uni_Site.apartments',
-    'Soft_Uni_Site.users',
-    'Soft_Uni_Site.rentals',
-    'Soft_Uni_Site.reviews',
-    'Soft_Uni_Site.bookings',
+    'rentals',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +55,7 @@ ROOT_URLCONF = 'Soft_Uni_Site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [os.path.join(BASE_DIR / 'templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -131,3 +127,33 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # Add other authentication backends as needed
+]
+
+# Login URL
+LOGIN_URL = '/login/'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+# Session Cookie Name
+SESSION_COOKIE_NAME = 'sessionid'
+
+# Secure Session Cookie
+SESSION_COOKIE_SECURE = True
+
+# HTTP Only Session Cookie
+SESSION_COOKIE_HTTPONLY = True
+
+# Domain for Session Cookie
+SESSION_COOKIE_DOMAIN = '.example.com'
+
+# Session Serialization
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+
+# Clearing Sessions on Browser Close
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
