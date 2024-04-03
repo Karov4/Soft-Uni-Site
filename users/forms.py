@@ -1,6 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from users.models import CustomUser
 
@@ -23,3 +22,9 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class CustomUserChangeForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email', 'age', 'user_type')

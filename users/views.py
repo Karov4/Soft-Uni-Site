@@ -1,14 +1,10 @@
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView
 from .models import CustomUser
 from django.shortcuts import render, redirect
-from .forms import NewUserForm
+from .forms import NewUserForm, CustomUserChangeForm
 from django.contrib.auth.models import Group
-
-
-class UserProfileDetailView(DetailView):
-    model = CustomUser
-    template_name = 'users/userprofile_detail.html'
 
 
 def register_request(request):
@@ -33,4 +29,18 @@ def register_request(request):
     return render(request=request, template_name="authentication/register.html", context={"register_form": form})
 
 
+@login_required
+def view_profile(request):
+    return render(request, 'users/view_profile.html')
 
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('view_profile')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return render(request, 'users/edit_profile.html', {'form': form})

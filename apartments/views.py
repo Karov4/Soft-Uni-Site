@@ -19,11 +19,6 @@ def home_with_profile(request):
     return render(request, 'home_with_profile.html', {'apartments': apartments})
 
 
-class ApartmentDetailView(DetailView):
-    model = Apartment
-    template_name = 'apartments/apartments_details.html'
-
-
 class LeaseCreateView(CreateView):
     model = Lease
     fields = ['tenant', 'apartment', 'start_date', 'end_date']

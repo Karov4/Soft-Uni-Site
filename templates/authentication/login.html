@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block main_content %}
+    <body>
+    <div class="d-flex justify-content-center">
+        <h1>Login</h1>
+    </div>
+    <br>
+    <div class="d-flex justify-content-center">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+    </body>
+{% endblock %}

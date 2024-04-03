@@ -16,35 +16,28 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{%  url 'home_with_profile' %}">Apartment app</a>
+                <a class="navbar-brand" href="{% url 'home_with_profile' %}">Apartment app</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
                         aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
-                        {% if user.is_staff %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'my_apartments' %}">My Apartments</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Favourites</a>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Favourites</a>
-                            </li>
-                        {% endif %}
                     </ul>
                     {% if user.is_authenticated %}
-                        <ul class="navbar-nav me-sm-2">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'add_apartment' %}">Add Apartment</a>
-                            </li>
-                        </ul>
-                        <ul class="navbar-nav me-sm-2">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Profile</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'view_profile' %}">Profile details</a>
+                                    {% if user.is_staff %}
+                                        <a class="dropdown-item" href="{% url 'my_apartments' %}">My Apartments</a>
+                                        <a class="dropdown-item" href="{% url 'add_apartment' %}">Add Apartment</a>
+                                    {% endif %}
+                                    <a class="dropdown-item" href="">Favourites</a>
+                                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                </div>
                             </li>
                         </ul>
                     {% else %}
@@ -64,13 +57,6 @@
     <!-- End Navigation Bar -->
     {% block main_content %}
     {% endblock %}
-    <!-- Footer -->
-    <footer class="footer fixed-bottom bg-light">
-        <div class="container text-center">
-            <span class="text-muted">© 2024 Your Website. All rights reserved.</span>
-        </div>
-    </footer>
-    <!-- End Footer -->
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

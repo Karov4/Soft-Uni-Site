@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block main_content %}
+    <body>
+    <div class="card mb-3">
+        <h3 class="card-header">Profile details</h3>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Username: {{ user.username }}</li>
+            <li class="list-group-item">Email: {{ user.email }}</li>
+            <li class="list-group-item">Age: {{ user.age }}</li>
+            <li class="list-group-item">User Type: {{ user.get_user_type_display }}</li>
+        </ul>
+        <div class="card-body">
+            <a href="{% url 'edit_profile' %}" class="btn btn-warning">Edit profile</a>
+        </div>
+    </div>
+    </body>
+{% endblock %}
+
