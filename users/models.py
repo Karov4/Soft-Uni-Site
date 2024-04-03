@@ -11,10 +11,12 @@ class CustomUser(AbstractUser):
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, null=True, blank=True)
 
     def save(self, *args, **kwargs):
+
+        self.is_staff = self.user_type == 'leaser'
+
         super().save(*args, **kwargs)
 
         if self.user_type == 'renter':
             self.groups.set([Group.objects.get(name='Renters')])
         elif self.user_type == 'leaser':
             self.groups.set([Group.objects.get(name='Leasers')])
-
