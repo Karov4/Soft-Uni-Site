@@ -10,8 +10,6 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ apartment.name }}</h5>
                         <img src="{{ apartment.image_url }}" alt="text" width="200" height="200"/>
-                        <p class="card-text">Description: {{ apartment.description }}</p>
-                        <p class="card-text">Price: {{ apartment.price }} per night.</p>
                         <p class="card-text">Location: {{ apartment.location }}</p>
                         {% if apartment.available %}
                             <p class="card-text">Status: Available</p>

@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, ListView
 
 from .forms import ApartmentForm
 from .models import Apartment, Lease
@@ -13,10 +14,10 @@ def home(request):
     return render(request, 'home.html')
 
 
-@login_required
-def home_with_profile(request):
-    apartments = Apartment.objects.all()
-    return render(request, 'home_with_profile.html', {'apartments': apartments})
+class HomeWithProfileView(LoginRequiredMixin, ListView):
+    model = Apartment
+    template_name = 'home_with_profile.html'
+    context_object_name = 'apartments'
 
 
 class LeaseCreateView(CreateView):
@@ -49,10 +50,13 @@ def add_apartment(request):
     return render(request, 'apartments/apartment_add.html', {'form': form})
 
 
-@login_required
-def my_apartments(request):
-    apartments = Apartment.objects.filter(owner=request.user)
-    return render(request, 'apartments/my_apartments.html', {'apartments': apartments})
+class MyApartmentsView(LoginRequiredMixin, ListView):
+    model = Apartment
+    template_name = 'apartments/my_apartments.html'
+    context_object_name = 'apartments'
+
+    def get_queryset(self):
+        return Apartment.objects.filter(owner=self.request.user)
 
 
 @login_required

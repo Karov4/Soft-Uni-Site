@@ -1,6 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView, TemplateView
 from .models import CustomUser
 from django.shortcuts import render, redirect
 from .forms import NewUserForm, CustomUserChangeForm
@@ -29,9 +30,8 @@ def register_request(request):
     return render(request=request, template_name="authentication/register.html", context={"register_form": form})
 
 
-@login_required
-def view_profile(request):
-    return render(request, 'users/view_profile.html')
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'users/view_profile.html'
 
 
 @login_required

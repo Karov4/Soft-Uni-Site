@@ -1,8 +1,22 @@
 {% extends 'base.html' %}
 {% block main_content %}
-<form method="post">
-    {% csrf_token %}
-    <h2 class="text-center">Are you sure you want to delete {{ apartment.name }}?</h2>
-    <button type="submit" class="text-center">Yes, delete</button>
-</form>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row justify-content-center align-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title text-center">Are you sure you want to delete {{ apartment.name }}?</h3>
+                        <p class="text-danger mt-3 text-center"></p>
+                    </div>
+                    <div class="card-footer">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                                <a  href="{% url 'my_apartments' %}" class="btn btn-outline-primary">Cancel</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 {% endblock %}
