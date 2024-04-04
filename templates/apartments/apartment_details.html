@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block main_content %}
+    <body>
+    <div class="col-sm-6 mb-3 mb-sm-0 justify-content-center">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">{{ apartment.name }}</h5>
+                <img src="{{ apartment.image_url }}" alt="text" width="200" height="200"/>
+                <p class="card-text">Location: {{ apartment.description }}</p>
+                <p class="card-text">Location: {{ apartment.price }}</p>
+                <p class="card-text">Location: {{ apartment.location }}</p>
+                <p class="card-text">Status: Available</p>
+                <a href="{% url 'rent_apartment' apartment.id %}" class="btn btn-primary">Rent Apartment</a>
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}

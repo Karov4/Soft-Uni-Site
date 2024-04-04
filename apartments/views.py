@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import DetailView, CreateView, ListView
+from django.urls import reverse
+from django.views.generic import CreateView, ListView, DetailView
 
-from .forms import ApartmentForm
-from .models import Apartment, Lease
-from django.http import HttpResponseForbidden
+from .forms import ApartmentForm, RentForm
+from .models import Apartment, Rent
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 
 
 def home(request):
@@ -21,7 +22,7 @@ class HomeWithProfileView(LoginRequiredMixin, ListView):
 
 
 class LeaseCreateView(CreateView):
-    model = Lease
+    model = Rent
     fields = ['tenant', 'apartment', 'start_date', 'end_date']
     template_name = 'apartments/lease_form.html'
 
@@ -78,3 +79,28 @@ def delete_apartment(request, apartment_id):
         apartment.delete()
         return redirect('my_apartments')
     return render(request, 'apartments/confirm_delete.html', {'apartment': apartment})
+
+
+class ApartmentDetailView(DetailView):
+    model = Apartment
+    template_name = 'apartments/apartment_details.html'
+
+
+@login_required
+def rent_apartment(request, apartment_id):
+    """View to create a new rent for a specific apartment."""
+    apartment = get_object_or_404(Apartment, pk=apartment_id)
+    if request.method == 'POST':
+        form = RentForm(request.POST)
+        if form.is_valid():
+            rent = form.save(commit=False)
+            rent.tenant = request.user
+            rent.apartment = apartment
+            rent.save()
+            # Update the apartment's availability
+            apartment.available = False
+            apartment.save()
+            return HttpResponseRedirect(reverse('home_with_profile'))
+    else:
+        form = RentForm()
+    return render(request, 'apartments/rent_apartment.html', {'form': form, 'apartment': apartment})

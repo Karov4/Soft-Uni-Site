@@ -12,7 +12,7 @@ class Apartment(models.Model):
     image_url = models.URLField(null=False, blank=False, verbose_name="Image URL:", default='default_url')
 
 
-class Lease(models.Model):
+class Rent(models.Model):
     tenant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
     start_date = models.DateField()
@@ -22,7 +22,7 @@ class Lease(models.Model):
 class Review(models.Model):
     rating = models.IntegerField()
     comment = models.TextField()
-    lease = models.ForeignKey(Lease, on_delete=models.CASCADE)
+    lease = models.ForeignKey(Rent, on_delete=models.CASCADE)
     date = models.DateField()
 
 

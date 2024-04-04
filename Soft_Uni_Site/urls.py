@@ -5,6 +5,7 @@ from django.contrib.auth import views as auth_views
 
 from users.views import register_request
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 

@@ -12,7 +12,7 @@ class CustomUser(AbstractUser):
 
     def save(self, *args, **kwargs):
 
-        self.is_staff = self.user_type == 'leaser'
+        self.is_staff = self.is_superuser or self.user_type == 'leaser'
 
         super().save(*args, **kwargs)
 

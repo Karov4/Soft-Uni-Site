@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Apartment, Lease, Review, Favorite
+from .models import Apartment, Rent, Review, Favorite
 
 
 class ApartmentAdmin(admin.ModelAdmin):
@@ -31,6 +31,6 @@ class FavoriteAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Apartment, ApartmentAdmin)
-admin.site.register(Lease, LeaseAdmin)
+admin.site.register(Rent, LeaseAdmin)
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(Favorite, FavoriteAdmin)
