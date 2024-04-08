@@ -5,9 +5,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
-from .forms import ApartmentForm, RentForm, EditApartmentForm
-from .models import Apartment, Rent
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from .forms import ApartmentForm, RentForm, EditApartmentForm, ReviewForm
+from .models import Apartment, Rent, Review, Favorite
+from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
 
 
 def home(request):
@@ -85,6 +85,11 @@ class ApartmentDetailView(DetailView):
     template_name = 'apartments/apartment_details.html'
 
 
+class FavoritesApartmentDetailView(DetailView):
+    model = Apartment
+    template_name = 'apartments/apartment_details_from_favorites.html'
+
+
 @login_required
 def rent_apartment(request, apartment_id):
     """View to create a new rent for a specific apartment."""
@@ -109,3 +114,52 @@ def rent_apartment(request, apartment_id):
     else:
         form = RentForm()
     return render(request, 'apartments/rent_apartment.html', {'form': form, 'apartment': apartment})
+
+
+@login_required
+def add_review(request, rent_id):
+    rent = Rent.objects.get(id=rent_id)
+    apartment = rent.apartment
+    if not apartment.available:
+        return HttpResponse("This apartment is not available for review.")
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.lease = rent
+            review.save()
+            return redirect('my_rents')
+    else:
+        form = ReviewForm()
+
+    return render(request, 'apartments/add_review.html', {'form': form})
+
+
+@login_required
+def apartment_reviews(request, apartment_id):
+    apartment = Apartment.objects.get(id=apartment_id)
+    rents = apartment.rent_set.all()
+    reviews = Review.objects.filter(lease__in=rents)
+
+    return render(request, 'apartments/apartment_reviews.html', {'reviews': reviews})
+
+
+@login_required
+def add_favourite(request, apartment_id):
+    apartment = Apartment.objects.get(id=apartment_id)
+    # Check if the favourite already exists
+    existing_favourite = Favorite.objects.filter(user=request.user, apartment=apartment)
+    if existing_favourite.exists():
+        return HttpResponse("This apartment is already in your favourites.")
+
+    # If the favourite does not exist, create a new one
+    favourite = Favorite(user=request.user, apartment=apartment)
+    favourite.save()
+    return redirect('home_with_profile')
+
+
+@login_required
+def user_favourites(request, user_id):
+    favorites = Favorite.objects.filter(user__id=user_id)
+    return render(request, 'apartments/user_favorites.html', {'favorites': favorites})

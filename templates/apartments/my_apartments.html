@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block main_content %}
     <body>
-    <h1 class="text-center">Apartments</h1>
+    <h1 class="text-center">My apartments</h1>
     <hr>
     <div class="row">
         {% for apartment in apartments %}
@@ -20,6 +20,7 @@
                         {% endif %}
                         <a href="{% url 'edit_apartment' apartment.id %}" class="btn btn-warning">Edit</a>
                         <a href="{% url 'delete_apartment' apartment.id %}" class="btn btn-danger">Delete</a>
+                        <a href="{% url 'apartment_reviews' apartment.id %}" class="btn btn-info">Reviews</a>
                     </div>
                 </div>
             </div>

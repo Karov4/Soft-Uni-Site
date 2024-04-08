@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block main_content %}
+    <body>
+    <h1 class="text-center">Apartment reviews</h1>
+    <hr>
+    <div class="row">
+        {% for review in reviews %}
+            <div class="card border-dark mb-3" style="max-width: 20rem;">
+                <div class="card-header">{{ review.date }}</div>
+                <div class="card-body">
+                    <h4 class="card-title">Rating: {{ review.rating }} / 5</h4>
+                    <p class="card-text">Comment: {{ review.comment }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <h3 class="text-center">No reviews for this apartment.</h3>
+        {% endfor %}
+    </div>
+    </body>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Apartment, Rent
+from .models import Apartment, Rent, Review
 
 
 class ApartmentForm(forms.ModelForm):
@@ -29,3 +29,9 @@ class RentForm(forms.ModelForm):
         if end_date is not None and start_date is not None:
             if end_date < start_date:
                 raise ValidationError("End date should not be earlier than start date.")
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment', 'date']

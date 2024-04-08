@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 
@@ -20,7 +21,7 @@ class Rent(models.Model):
 
 
 class Review(models.Model):
-    rating = models.IntegerField()
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField()
     lease = models.ForeignKey(Rent, on_delete=models.CASCADE)
     date = models.DateField()

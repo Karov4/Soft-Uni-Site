@@ -18,6 +18,7 @@
             <div class="container-fluid">
                 {% if user.is_authenticated %}
                     <a class="navbar-brand" href="{% url 'home_with_profile' %}">Apartment app</a>
+                    <a class="nav-link active text-light" href="{% url 'user_favourites' user.id %}">My favorites</a>
                 {% else %}
                     <a class="navbar-brand" href="{% url 'login' %}">Apartment app</a>
                 {% endif %}
@@ -40,7 +41,7 @@
                                         <a class="dropdown-item" href="{% url 'add_apartment' %}">Add Apartment</a>
                                     {% endif %}
                                     <a class="dropdown-item" href="{% url 'my_rents' %}">My Rents</a>
-                                    <a class="dropdown-item" href="">Favourites</a>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                                 </div>
                             </li>

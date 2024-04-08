@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block main_content %}
+    <body>
+    <h1 class="text-center">Favorites</h1>
+    <hr>
+    <div class="row">
+        {% for favorite in favorites %}
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ favorite.apartment.name }}</h5>
+                        <img src="{{ favorite.apartment.image_url }}" alt="text" width="200" height="200"/>
+                        <p class="card-text">Location: {{ favorite.apartment.location }}</p>
+                        {% if favorite.apartment.available %}
+                            <p class="card-text">Status: Available</p>
+                        {% else %}
+                            <p class="card-text">Status: Not Available</p>
+                        {% endif %}
+                        <a href="{% url 'apartment_detail_from_favorites' favorite.apartment.id %}" class="btn btn-primary">Apartment details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <li>No Favorites.</li>
+        {% endfor %}
+    </div>
+    </body>
+{% endblock %}
