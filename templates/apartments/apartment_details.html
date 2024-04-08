@@ -9,8 +9,14 @@
                 <p class="card-text">Location: {{ apartment.description }}</p>
                 <p class="card-text">Location: {{ apartment.price }}</p>
                 <p class="card-text">Location: {{ apartment.location }}</p>
+                {% if apartment.available %}
                 <p class="card-text">Status: Available</p>
+                {% else %}
+                <p class="card-text">Status: Not Available</p>
+                {% endif %}
+                {% if apartment.available %}
                 <a href="{% url 'rent_apartment' apartment.id %}" class="btn btn-primary">Rent Apartment</a>
+                {% endif %}
             </div>
         </div>
     </div>

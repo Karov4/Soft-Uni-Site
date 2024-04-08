@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (home, HomeWithProfileView, add_apartment, MyApartmentsView, edit_apartment, delete_apartment,
-                    rent_apartment, ApartmentDetailView)
+                    rent_apartment, ApartmentDetailView, MyRentsView)
 
 
 urlpatterns = [
@@ -12,4 +12,5 @@ urlpatterns = [
     path('delete_apartment/<int:apartment_id>/', delete_apartment, name='delete_apartment'),
     path('home_with_profile/apartment/<int:pk>/', ApartmentDetailView.as_view(), name='apartment_detail'),
     path('rent/<int:apartment_id>/', rent_apartment, name='rent_apartment'),
+    path('my_rents/', MyRentsView.as_view(), name='my_rents'),
 ]

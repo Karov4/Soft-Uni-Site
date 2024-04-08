@@ -1,10 +1,11 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import ListView, DetailView
 
-from .forms import ApartmentForm, RentForm
+from .forms import ApartmentForm, RentForm, EditApartmentForm
 from .models import Apartment, Rent
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 
@@ -19,17 +20,6 @@ class HomeWithProfileView(LoginRequiredMixin, ListView):
     model = Apartment
     template_name = 'home_with_profile.html'
     context_object_name = 'apartments'
-
-
-class LeaseCreateView(CreateView):
-    model = Rent
-    fields = ['tenant', 'apartment', 'start_date', 'end_date']
-    template_name = 'apartments/lease_form.html'
-
-    def form_valid(self, form):
-        if self.request.user.groups.filter(name='Renters').exists():
-            return HttpResponseForbidden("You are not allowed to perform this action.")
-        return super().form_valid(form)
 
 
 @login_required
@@ -60,16 +50,25 @@ class MyApartmentsView(LoginRequiredMixin, ListView):
         return Apartment.objects.filter(owner=self.request.user)
 
 
+class MyRentsView(LoginRequiredMixin, ListView):
+    model = Rent
+    template_name = 'apartments/my_rents.html'
+    context_object_name = 'rents'
+
+    def get_queryset(self):
+        return Rent.objects.filter(tenant_id=self.request.user)
+
+
 @login_required
 def edit_apartment(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id, owner=request.user)
     if request.method == 'POST':
-        form = ApartmentForm(request.POST, instance=apartment)
+        form = EditApartmentForm(request.POST, instance=apartment)
         if form.is_valid():
             form.save()
             return redirect('my_apartments')
     else:
-        form = ApartmentForm(instance=apartment)
+        form = EditApartmentForm(instance=apartment)
     return render(request, 'apartments/edit_apartment.html', {'form': form})
 
 @login_required
@@ -90,6 +89,12 @@ class ApartmentDetailView(DetailView):
 def rent_apartment(request, apartment_id):
     """View to create a new rent for a specific apartment."""
     apartment = get_object_or_404(Apartment, pk=apartment_id)
+
+    # Check if the apartment is available
+    if not apartment.available:
+        messages.error(request, 'This apartment is not available.')
+        return HttpResponseRedirect(reverse('home_with_profile'))
+
     if request.method == 'POST':
         form = RentForm(request.POST)
         if form.is_valid():
