@@ -5,9 +5,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
+from users.models import CustomUser
 from .forms import ApartmentForm, RentForm, EditApartmentForm, ReviewForm
 from .models import Apartment, Rent, Review, Favorite
-from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse, Http404
 
 
 def home(request):
@@ -159,11 +160,20 @@ def add_favourite(request, apartment_id):
     return redirect('home_with_profile')
 
 
-@login_required
-def user_favourites(request, user_id):
-    favorites = Favorite.objects.filter(user__id=user_id)
-    return render(request, 'apartments/user_favorites.html', {'favorites': favorites})
+class UserFavoritesView(LoginRequiredMixin, DetailView):
+    template_name = 'apartments/user_favorites.html'
+    context_object_name = 'favorites'
 
+    def get_object(self, queryset=None):
+        user_id = self.kwargs['user_id']
+        if self.request.user.id != int(user_id):
+            raise Http404("You are not allowed to view this page.")
+        return get_object_or_404(CustomUser, pk=user_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['favorites'] = Favorite.objects.filter(user__id=self.get_object().id)
+        return context
 
 @login_required
 def delete_favourite(request, apartment_id):
