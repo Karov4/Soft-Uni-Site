@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (home, HomeWithProfileView, add_apartment, MyApartmentsView, edit_apartment, delete_apartment,
                     rent_apartment, ApartmentDetailView, MyRentsView, add_review, apartment_reviews, add_favourite,
-                    user_favourites, FavoritesApartmentDetailView)
+                    user_favourites, FavoritesApartmentDetailView, delete_favourite)
 
 
 urlpatterns = [
@@ -19,4 +19,5 @@ urlpatterns = [
     path('apartment/<int:apartment_id>/add_favourite/', add_favourite, name='add_favourite'),
     path('user/<int:user_id>/favourites/', user_favourites, name='user_favourites'),
     path('favorites/apartment/<int:pk>/', FavoritesApartmentDetailView.as_view(), name='apartment_detail_from_favorites'),
+    path('delete_favourite/<int:apartment_id>/', delete_favourite, name='delete_favourite'),
 ]

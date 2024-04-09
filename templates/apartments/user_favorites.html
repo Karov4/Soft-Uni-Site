@@ -16,7 +16,8 @@
                         {% else %}
                             <p class="card-text">Status: Not Available</p>
                         {% endif %}
-                        <a href="{% url 'apartment_detail_from_favorites' favorite.apartment.id %}" class="btn btn-primary">Apartment details</a>
+                        <a href="{% url 'apartment_detail_from_favorites' favorite.apartment.id %}" class="btn btn-outline-info">Apartment details</a>
+                        <a href="{% url 'delete_favourite' favorite.apartment.id %}" class="btn btn-outline-danger">Remove from favorites</a>
                     </div>
                 </div>
             </div>

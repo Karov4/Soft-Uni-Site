@@ -18,9 +18,9 @@
                         {% else %}
                             <p class="card-text">Status: Not Available</p>
                         {% endif %}
-                        <a href="{% url 'edit_apartment' apartment.id %}" class="btn btn-warning">Edit</a>
-                        <a href="{% url 'delete_apartment' apartment.id %}" class="btn btn-danger">Delete</a>
-                        <a href="{% url 'apartment_reviews' apartment.id %}" class="btn btn-info">Reviews</a>
+                        <a href="{% url 'edit_apartment' apartment.id %}" class="btn btn-outline-warning">Edit</a>
+                        <a href="{% url 'delete_apartment' apartment.id %}" class="btn btn-outline-danger">Delete</a>
+                        <a href="{% url 'apartment_reviews' apartment.id %}" class="btn btn-outline-info">Reviews</a>
                     </div>
                 </div>
             </div>

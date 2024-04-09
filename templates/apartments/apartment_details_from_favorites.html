@@ -15,7 +15,7 @@
                 <p class="card-text">Status: Not Available</p>
                 {% endif %}
                 {% if apartment.available %}
-                <a href="{% url 'rent_apartment' apartment.id %}" class="btn btn-primary">Rent Apartment</a>
+                <a href="{% url 'rent_apartment' apartment.id %}" class="btn btn-outline-info">Rent Apartment</a>
                 {% endif %}
             </div>
         </div>

@@ -17,7 +17,7 @@
       <td>{{ rent.end_date }}</td>
       <td>
           {% if rent.apartment.available %}
-          <a href="{% url 'add_review' rent.id %}" class="btn btn-info">Add Review</a>
+          <a href="{% url 'add_review' rent.id %}" class="btn btn-outline-info">Add Review</a>
           {% endif %}
       </td>
     </tr>

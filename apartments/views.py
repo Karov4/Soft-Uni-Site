@@ -163,3 +163,19 @@ def add_favourite(request, apartment_id):
 def user_favourites(request, user_id):
     favorites = Favorite.objects.filter(user__id=user_id)
     return render(request, 'apartments/user_favorites.html', {'favorites': favorites})
+
+
+@login_required
+def delete_favourite(request, apartment_id):
+    # Get the apartment
+    apartment = get_object_or_404(Apartment, id=apartment_id)
+
+    # Check if the favourite exists
+    favourite = Favorite.objects.filter(user=request.user, apartment=apartment)
+    if favourite.exists():
+        # If the favourite exists, delete it
+        favourite.delete()
+        return redirect(reverse('user_favourites', args=[request.user.id]))
+    else:
+        # If the favourite does not exist, inform the user
+        return HttpResponse("This apartment is not in your favourites.")
